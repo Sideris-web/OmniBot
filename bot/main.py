@@ -5,7 +5,7 @@ import openai
 
 # 🔥 ВСТАНОВЛЮЄМО КЛЮЧІ НАПРЯМУ
 TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 
 # 🔥 Переконуємось, що ключі не пусті
 if not TELEGRAM_BOT_TOKEN:
