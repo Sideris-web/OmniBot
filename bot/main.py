@@ -1,4 +1,5 @@
 import logging
+import requests
 
 from plugin_manager import PluginManager
 from openai_helper import OpenAIHelper, default_max_tokens, are_functions_available
@@ -6,9 +7,23 @@ from telegram_bot import ChatGPTTelegramBot
 
 
 def main():
-    # 🔥 Пряме встановлення API-ключів
-    TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"  # 🔥 Замініть на свій токен
-    OPENAI_API_KEY = "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"  # 🔥 Замініть на свій OpenAI ключ
+    # 🔥 Пряме встановлення API-ключів (замініть на свої)
+    TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
+    OPENAI_API_KEY = "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"
+
+    # ✅ Перевіряємо, чи OpenAI API працює правильно
+    headers = {
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get("https://api.openai.com/v1/models", headers=headers)
+
+    if response.status_code != 200:
+        logging.error(f"🚨 OpenAI API НЕ працює! Код помилки: {response.status_code}, {response.json()}")
+        exit(1)
+    else:
+        logging.info("✅ Успішне з'єднання з OpenAI API!")
 
     # Setup logging
     logging.basicConfig(
