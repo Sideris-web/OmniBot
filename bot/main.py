@@ -6,7 +6,7 @@ from aiogram.utils import executor
 
 # 🔥 ВСТАНОВЛЮЄМО КЛЮЧІ НАПРЯМУ (ЗАМІНИ НА СВОЇ)
 TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 OPENAI_PROJECT = "proj_kIBGPch0Rb1S16SEVGmKP9jf"
 
 # Ініціалізуємо Telegram бота
