@@ -1,12 +1,17 @@
-import os
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 import openai
 
-# Завантажуємо API-ключі з оточення
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# 🔥 Пряме встановлення API-ключів (ЗАМІНИ НА СВОЇ)
+TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
+OPENAI_API_KEY = "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"
+
+# Переконуємося, що ключі не пусті
+if not TELEGRAM_BOT_TOKEN:
+    raise ValueError("❌ TELEGRAM_BOT_TOKEN не вказано!")
+if not OPENAI_API_KEY:
+    raise ValueError("❌ OPENAI_API_KEY не вказано!")
 
 # Налаштовуємо OpenAI API
 openai.api_key = OPENAI_API_KEY
