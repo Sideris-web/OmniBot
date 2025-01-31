@@ -5,12 +5,18 @@ import openai
 
 # 🔥 ВСТАНОВЛЮЄМО КЛЮЧІ НАПРЯМУ
 TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
+OPENAI_ORG = "org-aljpAbtAOS2HOA91HxWLPd5f"
+OPENAI_PROJECT = "proj_kIBGPch0Rb1S16SEVGmKP9jf"
 
-# 🔥 Використовуємо OpenAI Projects API (правильний URL!)
+# 🔥 Використовуємо OpenAI Projects API (з правильним URL і заголовками)
 client = openai.OpenAI(
     api_key=OPENAI_API_KEY,
-    base_url="https://api.openai.com/v1"
+    base_url="https://api.openai.com/v1",
+    headers={
+        "OpenAI-Organization": OPENAI_ORG,
+        "OpenAI-Project": OPENAI_PROJECT,
+    }
 )
 
 # Ініціалізуємо Telegram бота
