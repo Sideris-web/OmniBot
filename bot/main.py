@@ -9,7 +9,7 @@ from telegram_bot import ChatGPTTelegramBot
 def main():
     # 🔥 Пряме встановлення API-ключів (замініть на свої)
     TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-    OPENAI_API_KEY = "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"
+    OPENAI_API_KEY = "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"
 
     # ✅ Перевіряємо, чи OpenAI API працює правильно
     headers = {
