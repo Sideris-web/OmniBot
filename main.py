@@ -3,8 +3,16 @@ import telebot
 import openai
 
 # Отримуємо токени з перемінних середовища
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Завантажує змінні середовища
+
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
+print(f"🔹 Завантажено TELEGRAM_BOT_TOKEN: {TELEGRAM_BOT_TOKEN}")
+print(f"🔹 Завантажено OPENAI_API_KEY: {OPENAI_API_KEY}")
 
 # Підключаємо API OpenAI
 openai.api_key = OPENAI_API_KEY
