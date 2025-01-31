@@ -1,84 +1,42 @@
+import os
 import logging
-import requests
+from aiogram import Bot, Dispatcher, types
+from aiogram.utils import executor
+import openai
 
-from plugin_manager import PluginManager
-from openai_helper import OpenAIHelper, default_max_tokens, are_functions_available
-from telegram_bot import ChatGPTTelegramBot
+# Завантажуємо API-ключі з оточення
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Налаштовуємо OpenAI API
+openai.api_key = OPENAI_API_KEY
 
-def main():
-    # 🔥 Пряме встановлення API-ключів (замініть на свої)
-    TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-    OPENAI_API_KEY = "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"
+# Ініціалізуємо Telegram бота
+bot = Bot(token=TELEGRAM_BOT_TOKEN)
+dp = Dispatcher(bot)
 
-    # ✅ Перевіряємо, чи OpenAI API працює правильно
-    headers = {
-        "Authorization": f"Bearer {OPENAI_API_KEY}",
-        "Content-Type": "application/json"
-    }
+# Логування
+logging.basicConfig(level=logging.INFO)
 
-    response = requests.get("https://api.openai.com/v1/models", headers=headers)
+# Обробка команд
+@dp.message_handler(commands=['start'])
+async def start(message: types.Message):
+    await message.reply("Привіт! Я OmniBot 🤖. Запитай мене що завгодно!")
 
-    if response.status_code != 200:
-        logging.error(f"🚨 OpenAI API НЕ працює! Код помилки: {response.status_code}, {response.json()}")
-        exit(1)
-    else:
-        logging.info("✅ Успішне з'єднання з OpenAI API!")
+# Обробка повідомлень
+@dp.message_handler()
+async def chat_with_gpt(message: types.Message):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": message.text}]
+        )
+        reply = response["choices"][0]["message"]["content"]
+        await message.reply(reply)
+    except Exception as e:
+        logging.error(f"Помилка OpenAI API: {e}")
+        await message.reply("Виникла помилка. Спробуй ще раз!")
 
-    # Setup logging
-    logging.basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        level=logging.INFO,
-    )
-    logging.getLogger("httpx").setLevel(logging.WARNING)
-
-    # Setup configurations
-    model = "gpt-4o"
-    functions_available = are_functions_available(model=model)
-    max_tokens_default = default_max_tokens(model=model)
-
-    openai_config = {
-        "api_key": OPENAI_API_KEY,
-        "show_usage": False,
-        "stream": True,
-        "max_history_size": 15,
-        "max_conversation_age_minutes": 180,
-        "assistant_prompt": "You are a helpful assistant.",
-        "max_tokens": max_tokens_default,
-        "n_choices": 1,
-        "temperature": 1.0,
-        "model": model,
-        "enable_functions": functions_available,
-        "presence_penalty": 0.0,
-        "frequency_penalty": 0.0,
-        "bot_language": "en",
-    }
-
-    telegram_config = {
-        "token": TELEGRAM_BOT_TOKEN,
-        "admin_user_ids": "-",
-        "allowed_user_ids": "*",
-        "enable_quoting": True,
-        "enable_image_generation": True,
-        "enable_transcription": True,
-        "enable_vision": True,
-        "enable_tts_generation": True,
-        "budget_period": "monthly",
-        "user_budgets": "*",
-        "guest_budget": 100.0,
-        "stream": True,
-        "proxy": None,
-        "bot_language": "en",
-    }
-
-    plugin_config = {"plugins": []}
-
-    # Setup and run ChatGPT and Telegram bot
-    plugin_manager = PluginManager(config=plugin_config)
-    openai_helper = OpenAIHelper(config=openai_config, plugin_manager=plugin_manager)
-    telegram_bot = ChatGPTTelegramBot(config=telegram_config, openai=openai_helper)
-    telegram_bot.run()
-
-
+# Запуск бота
 if __name__ == "__main__":
-    main()
+    executor.start_polling(dp, skip_updates=True)
