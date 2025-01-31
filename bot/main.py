@@ -18,7 +18,7 @@ if not OPENAI_API_KEY:
 
 # 🔥 Підключення до Google Sheets для збереження історії
 SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-CREDS = ServiceAccountCredentials.from_json_keyfile_name("google_credentials.json", SCOPE)
+CREDS = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(os.getenv("GOOGLE_APPLICATION_CREDENTIALS")), SCOPE)
 CLIENT = gspread.authorize(CREDS)
 SHEET = CLIENT.open("OmniBot_History").sheet1  # 🔥 Замініть на свою назву документа
 
