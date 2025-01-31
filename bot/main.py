@@ -5,7 +5,7 @@ import openai
 
 # 🔥 ВСТАНОВЛЮЄМО КЛЮЧІ НАПРЯМУ
 TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 
 # 🔥 Переконуємось, що ключі не пусті
 if not TELEGRAM_BOT_TOKEN:
@@ -13,8 +13,8 @@ if not TELEGRAM_BOT_TOKEN:
 if not OPENAI_API_KEY:
     raise ValueError("❌ OPENAI_API_KEY не вказано!")
 
-# Налаштовуємо OpenAI API
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
+# 🔥 OpenAI Projects API потребує правильного посилання!
+client = openai.OpenAI(api_key=OPENAI_API_KEY, base_url="https://api.openai.com/v1")
 
 # Ініціалізуємо Telegram бота
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
