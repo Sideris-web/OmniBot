@@ -8,7 +8,7 @@ from telegram_bot import ChatGPTTelegramBot
 def main():
     # 🔥 Пряме встановлення API-ключів
     TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"  # 🔥 Замініть на свій токен
-    OPENAI_API_KEY = "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"  # 🔥 Замініть на свій OpenAI ключ
+    OPENAI_API_KEY = "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"  # 🔥 Замініть на свій OpenAI ключ
 
     # Setup logging
     logging.basicConfig(
