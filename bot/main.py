@@ -9,14 +9,10 @@ OPENAI_API_KEY = "sk-proj-DO1c26T4ExB6Mp0MtFXKdbyXgwFjRo3GAvhRFXEwQ7JaYWDUTHEu2a
 OPENAI_ORG = "org-aljpAbtAOS2HOA91HxWLPd5f"
 OPENAI_PROJECT = "proj_kIBGPch0Rb1S16SEVGmKP9jf"
 
-# 🔥 Використовуємо OpenAI Projects API (з правильним URL і заголовками)
+# 🔥 Використовуємо OpenAI Projects API
 client = openai.OpenAI(
     api_key=OPENAI_API_KEY,
-    base_url="https://api.openai.com/v1",
-    headers={
-        "OpenAI-Organization": OPENAI_ORG,
-        "OpenAI-Project": OPENAI_PROJECT,
-    }
+    base_url="https://api.openai.com/v1"
 )
 
 # Ініціалізуємо Telegram бота
@@ -37,7 +33,12 @@ async def chat_with_gpt(message: types.Message):
     try:
         response = client.chat.completions.create(
             model="gpt-4o-2024-11-20",  # ✅ Використовуємо правильний формат
-            messages=[{"role": "user", "content": message.text}]
+            messages=[{"role": "user", "content": message.text}],
+            headers={
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
+                "OpenAI-Organization": OPENAI_ORG,
+                "OpenAI-Project": OPENAI_PROJECT
+            }
         )
         reply = response.choices[0].message.content
         await message.reply(reply)
