@@ -1,3 +1,19 @@
+import logging
+import requests
+import json
+import os
+from aiogram import Bot, Dispatcher, types
+from aiogram.utils import executor
+
+# 🔥 ВСТАНОВЛЮЄМО КЛЮЧІ НАПРЯМУ ДЛЯ TELEGRAM
+TELEGRAM_BOT_TOKEN = "7858075515:AAHkJvKomSWgS6V4-qx4b76dCW04IcOYutE"  # 🔥 Замініть на свій токен
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_PROJECT = os.getenv("OPENAI_PROJECT", "proj_kIBGPch0Rb1S16SEVGmKP9jf")
+
+# Перевіряємо, чи всі змінні налаштовані
+if not OPENAI_API_KEY:
+    raise ValueError("❌ Відсутній OPENAI_API_KEY. Переконайтеся, що він встановлений у середовищі!")
+
 # Ініціалізуємо Telegram бота
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher(bot)
